@@ -26,7 +26,7 @@ def send_to_discord(date, explanation, photo_url):
     client.run(discord_token)
 
 
-api = os.environ.get("api_telegram")
+api = os.environ.get("nasa_api")
 r = requests.get(f"https://api.nasa.gov/planetary/apod?api_key={api}")
 photo_url = r.json()["url"]
 explanation = r.json()["explanation"]
