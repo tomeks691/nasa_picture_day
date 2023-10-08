@@ -1,6 +1,7 @@
 import requests
 import discord
 import os
+from deep_translator import GoogleTranslator
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
@@ -25,10 +26,14 @@ def send_to_discord(date, explanation, photo_url):
 
     client.run(discord_token)
 
+def translate_to_polish(text):
+    translator = GoogleTranslator(source='auto', target='pl')
+    return translator.translate(text)
+
 
 api = os.environ.get("nasa_api")
 r = requests.get(f"https://api.nasa.gov/planetary/apod?api_key={api}")
 photo_url = r.json()["url"]
-explanation = r.json()["explanation"]
+explanation = translate_to_polish(r.json()["explanation"])
 date = r.json()["date"]
 send_to_discord(date, explanation, photo_url)
